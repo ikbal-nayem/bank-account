@@ -6,11 +6,11 @@ using namespace std;
 
 class database
 {
-    int top=0;
     array<string, 20>usr_name;
     array<int, 20>balance;
     array<int, 20>account_number;
 public:
+    int top=0;
     void add(string name, int ac_no, int blnc)
     {
         usr_name[top]=name;
@@ -45,6 +45,19 @@ public:
         return account_number[i];
     }
 
+    void update(int i, int m, int up)
+    {
+        if(up==1)
+            balance[i]+=m;
+        else
+            {
+                if(balance[i]<m)
+                    cout<<"Your account has no sufficiant balance to withdraw."<<endl<<endl;
+                else
+                    balance[i]-=m;
+            }
+    }
+
     void del(int i)
     {
         for(int j=i+1; j<top; j++)
@@ -65,6 +78,7 @@ public:
         string n;
         cout<<"Name: ";
         cin>>n;
+//        cin.getline(n, 20);
         int a, b;
         cout<<"Account number: "; cin>>a;
         cout<<"Initial balance: "; cin>>b;
@@ -76,6 +90,7 @@ public:
     {
         string n;
         cout<<"Name: ";
+//        getline(cin, n);
         cin>>n;
         cout<<"Account number: ";
         int a, r; cin>>a;
@@ -91,6 +106,16 @@ public:
             cout<<"Account not found named "<<n<<"!"<<endl<<endl;
             return -1;
             }
+    }
+    void display_all()
+    {
+        cout<<endl<<"\t -----------------------------------------------------------------"<<endl;
+        cout<<"Name\tAccount No.\tBalance"<<endl;
+        for(int i=0; i<top; i++)
+        {
+            cout<<name(i)<<"\t"<<acnt(i)<<"\t\t"<<blnc(i)<<endl;
+        }
+        cout<<endl<<"\t -----------------------------------------------------------------"<<endl;
     }
 
     void del_ac()
@@ -108,6 +133,23 @@ public:
             }
         }
     }
+
+    void deposit()
+    {
+        int i, m;
+        i = display();
+        cout<<"Diposit amount: "; cin>>m;
+        update(i, m, 1);
+        cout<<"Update complete.Your new account balance is "<<blnc(i)<<endl<<endl;
+    }
+
+    void withdraw()
+    {
+        int i, m;
+        i = display();
+        cout<<"Withdraw amount: "; cin>>m;
+        update(i, m, 2);
+    }
 };
 
 main()
@@ -121,23 +163,31 @@ main()
             <<"3. Deposit balance"<<endl
             <<"4. Withdraw balance"<<endl
             <<"5. Delete account"<<endl
-            <<"6. Exit"<<endl
+            <<"6. Display all"<<endl
+            <<"7. Exit"<<endl
             <<"Choose an above option: "; cin>>in;
-        if(in==6)
+        if(in==7)
             break;
-        switch(in)
+        else if(in>0 && in<7)
         {
-            case 1: ac.add_ac();
-            break;
-            case 2: ac.display();
-            break;
-//            case 3: ac.deposit();
-//            break;
-//            case 4: ac.withdarw();
-//            break;
-            case 5: ac.del_ac();
-            break;
+            switch(in)
+            {
+                case 1: ac.add_ac();
+                break;
+                case 2: ac.display();
+                break;
+                case 3: ac.deposit();
+                break;
+                case 4: ac.withdraw();
+                break;
+                case 5: ac.del_ac();
+                break;
+                case 6: ac.display_all();
+                break;
+            }
         }
+        else
+            break;
     }
     return 0;
 }
