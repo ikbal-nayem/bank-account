@@ -9,8 +9,9 @@ class database
     array<string, 20>usr_name;
     array<int, 20>balance;
     array<int, 20>account_number;
-public:
+protected:
     int top=0;
+public:
     void add(string name, int ac_no, int blnc)
     {
         usr_name[top]=name;
